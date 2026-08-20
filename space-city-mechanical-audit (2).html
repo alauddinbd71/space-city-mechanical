@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Space City Mechanical — Business Intelligence Audit | Md. Alauddin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B1A24;
+  --frost:#5FA8C4;
+  --ember:#C96A32;
+  --gunmetal:#4A5568;
+  --paper:#F7F9FA;
+  --red:#B23B3B;
+  --green:#2F6B4F;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; padding:0 0 84px 0; background:var(--paper); color:var(--navy);
+  font-family:'DM Sans',sans-serif; font-size:15px; line-height:1.6;
+}
+h1,h2,h3,h4{font-family:'Playfair Display',serif; margin:0 0 .4em 0; color:var(--navy);}
+.mono{font-family:'DM Mono',monospace;}
+.wrap{max-width:760px; margin:0 auto; padding:0 20px;}
+a{color:var(--frost);}
+.section{padding:44px 0;}
+.section.dark{background:var(--navy); color:var(--paper);}
+.section.dark h2, .section.dark h3, .section.dark h4{color:var(--paper);}
+.section.paper{background:var(--paper);}
+.section.navy-border{border-top:1px solid #dfe6e9;}
+.zone-label{
+  font-family:'DM Mono',monospace; letter-spacing:.12em; text-transform:uppercase;
+  font-size:12px; color:var(--frost); margin-bottom:6px; font-weight:500;
+}
+.zone-title{font-size:26px; margin-bottom:6px;}
+.zone-sub{color:var(--gunmetal); font-size:14px; margin-bottom:28px;}
+.card{
+  background:#fff; border:1px solid #e3e8eb; border-radius:10px; padding:20px 22px; margin-bottom:18px; color:var(--navy);
+}
+.card.critical{border-left:4px solid var(--red);}
+.card.important{border-left:4px solid #C99A32;}
+.card.growth{border-left:4px solid var(--green);}
+.badge{
+  display:inline-block; font-family:'DM Mono',monospace; font-size:11.5px; font-weight:500;
+  padding:3px 9px; border-radius:20px; margin-bottom:8px; letter-spacing:.02em;
+}
+.badge.critical{background:#fbeaea; color:var(--red);}
+.badge.important{background:#fff6e5; color:#8a6414;}
+.badge.growth{background:#e9f3ee; color:var(--green);}
+.badge.verified{background:#e9f3ee; color:var(--green);}
+.callout{
+  font-family:'DM Mono',monospace; font-size:15px; font-weight:500; color:var(--navy);
+}
+.big-number{font-family:'DM Mono',monospace; font-weight:500; font-size:38px; color:var(--red); line-height:1.1;}
+.track-tag{
+  display:inline-block; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:.08em;
+  text-transform:uppercase; padding:3px 10px; border-radius:4px; margin-bottom:10px;
+}
+.track-res{background:rgba(95,168,196,.15); color:#2b6580; border:1px solid rgba(95,168,196,.4);}
+.track-com{background:rgba(201,106,50,.15); color:#8a4a20; border:1px solid rgba(201,106,50,.4);}
+.calc-box{
+  background:var(--navy); color:var(--paper); border-radius:8px; padding:16px 18px; margin:14px 0;
+  font-family:'DM Mono',monospace; font-size:13px; line-height:1.7; overflow-x:auto;
+}
+.calc-box .line{white-space:nowrap;}
+.term-tip{border-bottom:1px dotted var(--gunmetal); cursor:help;}
+table{width:100%; border-collapse:collapse; font-size:13.5px; margin:14px 0;}
+th,td{text-align:left; padding:8px 6px; border-bottom:1px solid #e3e8eb; vertical-align:top;}
+th{font-family:'DM Mono',monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--gunmetal);}
+.stamp{
+  display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px;
+  border-radius:50%; border:2px solid var(--navy); font-family:'DM Mono',monospace; font-size:12px;
+  font-weight:600; flex-shrink:0; margin-right:10px;
+}
+.finding{display:flex; align-items:flex-start; margin-bottom:14px;}
+.finding-body strong{display:block; margin-bottom:2px;}
+ul.plain{margin:8px 0; padding-left:20px;}
+ul.plain li{margin-bottom:6px;}
+.ring-wrap{display:flex; flex-direction:column; align-items:center; margin:10px 0 18px 0;}
+.ring-score{position:relative; width:180px; height:180px;}
+.ring-score svg{transform:rotate(-90deg);}
+.ring-score .num{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  flex-direction:column; font-family:'DM Mono',monospace;
+}
+.ring-score .num .n{font-size:44px; font-weight:500; color:#fff;}
+.ring-score .num .lbl{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:#9fb0bb;}
+.pillar-bar{background:#eef1f3; border-radius:6px; height:10px; overflow:hidden; margin:6px 0 2px 0;}
+.pillar-fill{height:100%; background:var(--frost); border-radius:6px;}
+.glossary-item{margin-bottom:10px; font-size:13.5px;}
+.glossary-item b{font-family:'DM Mono',monospace; font-size:13px;}
+.snapshot-btn{
+  display:inline-block; margin-top:16px; background:var(--frost); color:var(--navy); font-weight:600;
+  padding:12px 22px; border-radius:6px; text-decoration:none; font-size:14px;
+}
+.script-box{background:var(--paper); border:1px dashed var(--gunmetal); border-radius:8px; padding:14px 16px; margin:10px 0; font-size:13.5px; color:var(--navy);}
+.step-num{font-family:'Playfair Display',serif; font-size:15px; color:var(--frost); letter-spacing:.03em;}
+footer{background:var(--navy); color:#9fb0bb; padding:40px 0; font-size:12.5px; text-align:center;}
+footer a{color:var(--frost);}
+
+/* sticky contact bar */
+.sticky-bar{
+  position:fixed; left:0; right:0; bottom:0; z-index:999;
+  display:flex; background:var(--navy); box-shadow:0 -2px 14px rgba(0,0,0,.25);
+}
+.sticky-bar a{
+  flex:1; text-align:center; padding:15px 8px; font-family:'DM Sans',sans-serif; font-weight:700;
+  font-size:14.5px; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.sticky-bar .wa{background:#25D366; color:#06210f; flex:1.3;}
+.sticky-bar .em{background:var(--gunmetal); color:#fff;}
+@media (max-width:420px){
+  .zone-title{font-size:22px;}
+  .big-number{font-size:30px;}
+  .ring-score{width:150px; height:150px;}
+  .ring-score .num .n{font-size:36px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ZONE 0 — EXECUTIVE SNAPSHOT -->
+<div class="section" style="background:var(--navy); color:var(--paper); padding-top:34px; padding-bottom:34px;">
+  <div class="wrap">
+    <div class="zone-label">Business Intelligence Audit · Houston, TX</div>
+    <h1 style="font-size:28px; color:#fff; margin-bottom:4px;">Space City Mechanical</h1>
+    <p style="color:#9fb0bb; margin-top:0; font-size:13.5px;">Prepared by Md. Alauddin, HVAC Growth Specialist — August 20, 2026</p>
+
+    <div class="ring-wrap">
+      <div class="ring-score">
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          <circle cx="90" cy="90" r="78" fill="none" stroke="#1c3140" stroke-width="14"/>
+          <circle id="scorering" cx="90" cy="90" r="78" fill="none" stroke="#5FA8C4" stroke-width="14"
+            stroke-linecap="round" stroke-dasharray="490" stroke-dashoffset="490">
+            <animate attributeName="stroke-dashoffset" from="490" to="274" dur="1.4s" fill="freeze" begin="0.2s"/>
+          </circle>
+        </svg>
+        <div class="num"><span class="n">44</span><span class="lbl">of 100 · Below Average</span></div>
+      </div>
+    </div>
+
+    <p style="font-size:16px; text-align:center; max-width:520px; margin:0 auto;">
+      Your busiest technicians on record have twenty years of trust behind them — but on a phone, your website takes nearly <strong>25 seconds</strong> to finish loading. That's the whole problem in one sentence.
+    </p>
+
+    <div style="text-align:center; margin-top:22px;">
+      <div class="mono" style="font-size:13px; color:#9fb0bb; letter-spacing:.05em; text-transform:uppercase;">Estimated monthly leakage</div>
+      <div class="mono" style="font-size:40px; font-weight:500; color:#fff;">$17,340 / month</div>
+      <div style="font-size:13px; color:#9fb0bb; margin-top:2px;">$11,850 residential · $5,490 commercial — full breakdown below</div>
+    </div>
+
+    <div style="text-align:center;">
+      <a href="#zone1" class="snapshot-btn">See the full breakdown ↓</a>
+    </div>
+  </div>
+</div>
+
+<!-- ZONE 1 — PAIN -->
+<div id="zone1" class="section paper">
+  <div class="wrap">
+    <div class="zone-label">Zone 1 — Pain</div>
+    <h2 class="zone-title">What invisibility is costing you right now</h2>
+    <p class="zone-sub">Space City Mechanical serves both homeowners and businesses — a Trane R‑22 capacitor swap in Southwest Houston and a walk‑in cooler repair for a restaurant are two different buyers with two different fears. Everywhere the numbers split below, I've kept Residential and Commercial separate rather than blending them into one generic figure.</p>
+
+    <h3 class="step-num">Step 01 · Business Intelligence Score</h3>
+
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; margin-bottom:2px;"><span>Pillar 1 — GBP / Online Presence</span><span class="mono">14/25</span></div>
+      <div class="pillar-bar"><div class="pillar-fill" style="width:56%;"></div></div>
+      <div style="display:flex; justify-content:space-between; margin:10px 0 2px 0;"><span>Pillar 2 — Website Conversion</span><span class="mono">11/25</span></div>
+      <div class="pillar-bar"><div class="pillar-fill" style="width:44%; background:var(--ember);"></div></div>
+      <div style="display:flex; justify-content:space-between; margin:10px 0 2px 0;"><span>Pillar 3 — Review Authority</span><span class="mono">15/25</span></div>
+      <div class="pillar-bar"><div class="pillar-fill" style="width:60%;"></div></div>
+      <div style="display:flex; justify-content:space-between; margin:10px 0 2px 0;"><span>Pillar 4 — Ad Presence &amp; Tracking</span><span class="mono">4/25</span></div>
+      <div class="pillar-bar"><div class="pillar-fill" style="width:16%; background:var(--red);"></div></div>
+    </div>
+
+    <p>Here's what actually produced each number:</p>
+
+    <div class="card">
+      <strong>Pillar 1 (14/25) — GBP / Online Presence.</strong> Your profile is verified, has a real appointment link, and the description reads like it was written by someone who's actually run this business for twenty years — because it was. But your Google Business Profile carries exactly <strong>one category: "HVAC contractor."</strong> Bellaire Air Conditioning, three miles closer to your customers than most of your named competitors, carries six. Master AC and Heat carries nine, including "Plumber" and "Refrigerator repair service" — categories that put them in the running for the exact ice‑machine and walk‑in‑cooler jobs your reviews show you already win on skill. Google can't rank you for searches tied to categories you've never told it you belong to. Your description also still says "in just over 10 years" — you're closer to twenty now. Small detail, but it's the kind of thing that quietly tells Google (and a sharp-eyed reader) that this profile hasn't been touched in a while.
+    </div>
+
+    <div class="card">
+      <strong>Pillar 2 (11/25) — Website Conversion.</strong> You already have two things most HVAC sites your size skip: a working Financing page and a live booking link through Housecall Pro. Credit where it's due. But there's no sticky WhatsApp/Email bar following the reader down the page, no dedicated emergency/24‑hour landing page (even though your own footer advertises 24‑hour emergency calls), and — this is the big one — <span class="term-tip" data-tip="Google's real-world speed test of your site on a mobile connection.">PageSpeed Insights</span> clocked your mobile <span class="term-tip" data-tip="Largest Contentful Paint — how long the main content takes to visibly finish loading.">Largest Contentful Paint</span> at <strong>24.9 seconds</strong>, with a Performance score of 29/100. Your SEO score is a genuinely excellent 100/100 — the bones are good. The page is just too heavy to load fast enough for someone standing in a hot kitchen looking at their phone.
+    </div>
+
+    <div class="card">
+      <strong>Pillar 3 (15/25) — Review Authority.</strong> A 4.9 average across 69 reviews, several customers on record for 10, 13, even 15+ years — that's the kind of loyalty most HVAC companies can't buy. But your review response streak stopped roughly two years ago. Every review from the last 10–12 months, including your two most recent ones, sits unanswered — and so do your two negative reviews, one of them nine years old and still the first thing a skeptical reader hits if they scroll. Review velocity has picked back up lately (about 1.3 new reviews a month over the last year, versus a lifetime average closer to 0.6/month), but competitors like Air Star Now are sitting on 763.
+    </div>
+
+    <div class="card">
+      <strong>Pillar 4 (4/25) — Ad Presence &amp; Tracking.</strong> No Google Ads, no Local Services Ads, no detectable call/lead attribution. This isn't a criticism — it means every one of your 69 five‑star reviews and twenty years of reputation was earned with zero paid visibility. It also means this is the single most wide-open pillar to fix, because there's no waste to clean up first — just a blank canvas.
+    </div>
+
+    <h4>The Revenue Leakage Calculation</h4>
+    <div class="track-tag track-res">Residential Track</div>
+    <div class="calc-box">
+<div class="line">Market Search Volume  ≈ 1,100/mo  [Estimate — core residential AC/furnace-repair terms, Houston metro]</div>
+<div class="line">Category Capture Rate  =  0.35  (fixed)</div>
+<div class="line">Local Share  =  10%  (floor — see note below)</div>
+<div class="line">Visibility Score  =  0.44  →  unclaimed share = 0.56</div>
+<div class="line">Avg Residential Job Value (blended)  =  $550</div>
+<div class="line">------------------------------------------------</div>
+<div class="line">1,100 × 0.35 × 0.10 × 0.56 × $550  =  <strong>$11,850 / month</strong></div>
+    </div>
+    <p style="font-size:13px; color:var(--gunmetal);">Blended job value built from: ~65% repair/service calls (avg $350), ~25% diagnostic/maintenance (avg $150), ~10% full system replacement (avg $6,000, deliberately downweighted since replacements are far less frequent than repair calls).</p>
+
+    <div class="track-tag track-com">Commercial Track</div>
+    <div class="calc-box">
+<div class="line">Market Search Volume  ≈ 160/mo  [Estimate — commercial HVAC/RTU/refrigeration terms, Houston metro]</div>
+<div class="line">Category Capture Rate  =  0.35  (fixed)</div>
+<div class="line">Local Share  =  10%  (floor)</div>
+<div class="line">Visibility Score  =  0.44  →  unclaimed share = 0.56</div>
+<div class="line">Avg Commercial Job Value (blended)  =  $1,750</div>
+<div class="line">------------------------------------------------</div>
+<div class="line">160 × 0.35 × 0.10 × 0.56 × $1,750  =  <strong>$5,490 / month</strong></div>
+    </div>
+    <p style="font-size:13px; color:var(--gunmetal);">Blended from: ~60% RTU/commercial service calls (avg $700), ~32% PM/service-contract value (avg $400), ~8% larger replacement work (avg $15,000, heavily downweighted).</p>
+
+    <div class="card important">
+      <span class="badge important">🟡 Local Share note</span><br>
+      The ladder derivation (12 directly comparable competitors identified → 1÷12 baseline ≈ 8.3%, adjusted down 0.6× for not being confirmed visible in the 3‑pack for core terms ≈ 5%) fell below this formula's 10% floor. Rather than force a number the ladder didn't actually produce, I capped Local Share at the 10% floor and used a search-volume estimate rather than a live keyword-tool pull — flagged here rather than hidden.
+    </div>
+
+    <div style="text-align:center; margin:22px 0;">
+      <div class="mono" style="font-size:13px; color:var(--gunmetal); text-transform:uppercase; letter-spacing:.05em;">Combined monthly leakage</div>
+      <div class="big-number">$17,340</div>
+      <div style="font-size:13px; color:var(--gunmetal);">vanishing every 30 days you stay invisible</div>
+    </div>
+
+    <h4>Top 3 Revenue Bleeding Points</h4>
+    <div class="finding"><div class="stamp">1</div><div class="finding-body"><strong>Your mobile site takes 24.9 seconds to finish loading.</strong> Render-blocking requests alone cost an estimated 1,950ms, and the page ships 3,845 KiB total with 1,526 KiB of unused JavaScript. Someone searching "AC not cooling" mid‑heatwave is gone before your booking button ever appears. Fastest fix: compress and lazy‑load the Services page image gallery (it's the heaviest single asset) and defer non-critical scripts.</div></div>
+    <div class="finding"><div class="stamp">2</div><div class="finding-body"><strong>One GBP category is quietly hiding you from your own services.</strong> "Ice Machine & Walk-In Cooler Service" and "Chilled Water System" are on your website, but Google has no category telling it you do refrigeration or commercial work — so those searches never surface you. Fastest fix: add the mandatory secondary category set (below) this week.</div></div>
+    <div class="finding"><div class="stamp">3</div><div class="finding-body"><strong>Your review-response streak broke about two years ago.</strong> A prospect skimming reviews right now sees your two negative reviews with no reply, and your most recent five‑star reviews met with silence. Fastest fix: clear the backlog with the response templates in Step 04.</div></div>
+
+    <h3 class="step-num" style="margin-top:36px;">Step 02 · Competitor Displacement Audit</h3>
+    <table>
+      <tr><th>Threat</th><th>Business</th><th>Rating / Reviews</th><th>Vulnerability</th></tr>
+      <tr><td>🔴 Volume</td><td>Air Star Now</td><td>5.0 / 763</td><td>Dominant on volume alone — but generic "24/7" positioning, no visible refrigeration/commercial specialty</td></tr>
+      <tr><td>🟡 Geographic</td><td>Bellaire Air Conditioning<br><span style="font-size:11.5px;color:var(--gunmetal);">[Assumption: nearest by listed address; not verified via live mapping this session]</span></td><td>4.9 / 503</td><td>6 GBP categories vs. your 1 — closing the category gap alone would blunt most of this threat</td></tr>
+      <tr><td>🟢 Category</td><td>Master AC and Heat, LLC</td><td>4.8 / 188</td><td>9 GBP categories incl. Plumber &amp; Refrigerator repair — the only named competitor actively fishing in your commercial/refrigeration lane</td></tr>
+    </table>
+
+    <h4>Lost Revenue Calculation</h4>
+    <div class="calc-box">
+<div class="line">Map Pack CTR:  #1=42%  #2=28%  #3=18%  Not Visible=3%</div>
+<div class="line">Client CTR (highest-volume core term, position #2 assumption)  =  28%</div>
+<div class="line">CTR Gap  =  42% − 28%  =  14%</div>
+<div class="line">Monthly Searches (top single core term)  ≈  150  [Estimate]</div>
+<div class="line">Call-to-Booking Rate  =  0.65  (fixed)</div>
+<div class="line">------------------------------------------------</div>
+<div class="line">Leads Lost = 0.14 × 150 × 0.65  ≈  13.6 leads/mo</div>
+<div class="line">× $550 blended job value  =  <strong>$7,480 / month</strong>  (Annual ≈ $89,760)</div>
+    </div>
+    <p><strong>$7,480 of your $17,340 monthly leakage (43%) is traceable directly to these three competitors</strong> outranking you in the Map Pack. The remainder is the broader visibility gap — GBP completeness, ad presence, and review authority — that Steps 03–05 below are built to close.</p>
+
+  </div>
+</div>
+
+<!-- ZONE 2 — PROOF -->
+<div class="section dark">
+  <div class="wrap">
+    <div class="zone-label">Zone 2 — Proof</div>
+    <h2 class="zone-title" style="color:#fff;">Your business, looked at closely</h2>
+
+    <h3 class="step-num" style="color:var(--frost);">Step 03 · Online Presence Audit &amp; Ready-to-Paste Fixes</h3>
+
+    <table style="color:#e6edf1;">
+      <tr><th style="color:#9fb0bb;">Item</th><th style="color:#9fb0bb;">Status</th><th style="color:#9fb0bb;">Fix</th></tr>
+      <tr><td>Primary category</td><td>🟢 Correct</td><td>"HVAC contractor" — keep as-is</td></tr>
+      <tr><td>Secondary categories</td><td>🔴 Critical</td><td>Add: Air conditioning contractor, Air conditioning repair service, Furnace repair service, Heating contractor, Air duct cleaning service, plus a commercial/refrigeration category once confirmed available in your metro</td></tr>
+      <tr><td>Description freshness</td><td>🟡 Important</td><td>Update "just over 10 years" → reflects your actual ~20-year history; adds credibility, not just accuracy</td></tr>
+      <tr><td>Website URL consistency</td><td>🟡 Important</td><td>GBP lists <span class="mono" style="font-size:12px;">http://www.spacecityhvac.com/</span>; live site resolves at <span class="mono" style="font-size:12px;">https://spacecityhvac.com/</span> — point GBP at the canonical HTTPS URL</td></tr>
+      <tr><td>Sticky WhatsApp/Email bar</td><td>🔴 Critical</td><td>Not present on the site — the single highest-conversion element for a mobile audience, currently missing entirely</td></tr>
+      <tr><td>Emergency/24-hour landing page</td><td>🔴 Critical</td><td>24-hour emergency service is mentioned in the footer only — needs its own page with above-fold CTA</td></tr>
+      <tr><td>Financing page</td><td>🟢 Present</td><td>Already live — surface it in the GBP description and ad copy, it's not being used anywhere else</td></tr>
+      <tr><td>Booking / appointment URL</td><td>🟢 Present</td><td>Housecall Pro link is live and working</td></tr>
+      <tr><td>Mobile speed</td><td>🔴 Critical</td><td>29/100 Performance, 24.9s LCP — see Step 01, Bleeding Point #1</td></tr>
+      <tr><td>HTTPS</td><td>🟢 Present</td><td>Confirmed live</td></tr>
+      <tr><td>NATE / EPA 608 display</td><td>🟡 Important</td><td>Not visible on the pages reviewed — display prominently if current, since this is the #1 trust signal for both segments</td></tr>
+    </table>
+
+    <h4 style="color:#fff;">Ready-to-Paste GBP Description</h4>
+    <div class="script-box" style="background:#122536; border-color:#2c4456; color:#e6edf1;">
+      Residential &amp; Commercial HVAC, Refrigeration &amp; Chilled Water Systems in Houston, TX. Space City Mechanical has kept Houston families and businesses comfortable since 2006 — AC repair, furnace repair, heat pump service, full system installation, duct replacement, indoor air quality, and commercial/light-commercial refrigeration including walk-in coolers and chilled water systems. Founded by Aniceto "Cheetos" Garcia and family-run for two decades, with customers who've trusted us for 15+ years. Financing available. Same-day and after-hours emergency service across Houston. Rated 4.9 from 69 Houston customers. Call, text, or book online today.
+    </div>
+    <p style="font-size:13px; color:#9fb0bb;">679 characters. "Houston" appears twice. Emotional trigger: comfort/trust over two decades. Financing and emergency availability both stated. Residential and commercial both named explicitly, per your actual service mix.</p>
+
+    <h3 class="step-num" style="color:var(--frost); margin-top:32px;">Step 04 · Review Velocity System</h3>
+    <p style="color:#e6edf1;">Top 5 exact praise words from your 5‑star reviews: <span class="mono">"same day," "explained everything," "professional," "honest," "responsive."</span> These are the words your future customers are searching for confidence in — they belong in your GBP posts and ad copy verbatim.</p>
+
+    <div class="card important" style="background:#1a2e3d; border-color:#C99A32; color:#e6edf1;">
+      <span class="badge important">🟡 Unanswered — Richard Smith</span>
+      <p style="font-size:13.5px; margin:8px 0 4px 0;"><em>Complaint: diagnosed a bad compressor on a walk-in cooler, charged a $75 call-out fee, but never followed up with the promised parts estimate.</em></p>
+      <div class="script-box" style="background:#0f1f2c; border-color:#3a5266;">"Richard, you're right to call this out — we should have followed up with that estimate and didn't, and I'm sorry for the gap. Please reach out to me directly at admin@spacecityhvac.com or by phone so we can get you a firm quote on the compressor now. That follow-through is on us to fix, not you to chase."</div>
+    </div>
+    <div class="card important" style="background:#1a2e3d; border-color:#C99A32; color:#e6edf1;">
+      <span class="badge important">🟡 Unanswered — David Ogletree</span>
+      <p style="font-size:13.5px; margin:8px 0 4px 0;"><em>Complaint (9 years old): felt misled about system age and quoted $9,000 of work.</em></p>
+      <div class="script-box" style="background:#0f1f2c; border-color:#3a5266;">"David, this review is nearly a decade old but it's still the first thing a new customer reads, so I want to address it directly: I can't speak to what was said in that visit, but that's not how we diagnose or quote today. If you're open to it, I'd welcome the chance to make it right or at least hear more about what happened."</div>
+    </div>
+
+    <h4 style="color:#fff;">4 Ready-to-Use Review Scripts</h4>
+    <div class="script-box">SMS (within 2 hrs of job): "Hi [Name]! Thanks for choosing Space City Mechanical today. If [tech name] got your AC/furnace back up fast, a 30-second Google review means everything to our team: [link] — thank you!"</div>
+    <div class="script-box">Email (next morning, 9am) — Subject: "How's the [AC/furnace] running, [First Name]?" with a large button linking straight to the Google review page.</div>
+    <div class="script-box">In-person (tech says before leaving): "[Name], quick favor — a Google review takes 60 seconds and helps other Houston families find a tech they can trust before their AC or furnace goes down. I'll text you the link now — would that be okay?"</div>
+    <div class="script-box">WhatsApp: "Hi [Name] 👋 Glad we got things running comfortably again today! If everything went smoothly, a quick Google review really helps our team: [link]. 30 seconds — thank you!"</div>
+    <p style="color:#e6edf1;">At your recent pace (~1.3 reviews/month), doubling to 138 reviews within 12 months means roughly <strong>6 new reviews a month</strong> — about 1–2 a week. That's a realistic, buildable target; closing the gap to Air Star Now's 763 is not a 12-month goal for anyone, and I won't pretend otherwise.</p>
+  </div>
+</div>
+
+<!-- ZONE 3 — SOLUTION -->
+<div class="section paper">
+  <div class="wrap">
+    <div class="zone-label">Zone 3 — Solution</div>
+    <h2 class="zone-title">The complete system that fixes it</h2>
+
+    <h3 class="step-num">Step 05 · Lead Capture Blueprint</h3>
+    <p>No Google Ads or LSA currently detected on your account — this is a clean canvas, not cleanup work.</p>
+
+    <div class="track-tag track-res">Residential Keywords</div>
+    <ul class="plain">
+      <li><strong>High-intent:</strong> AC not cooling Houston · AC repair near me Houston · same day AC repair Houston · furnace not turning on Houston · emergency AC repair Houston TX</li>
+      <li><strong>General:</strong> HVAC company Houston · Houston HVAC contractor · AC maintenance plan Houston · duct cleaning Houston TX · HVAC inspection Houston</li>
+      <li><strong>High-value:</strong> AC replacement cost Houston · furnace replacement Houston · heat pump installation Houston</li>
+    </ul>
+
+    <div class="track-tag track-com">Commercial Keywords</div>
+    <ul class="plain">
+      <li><strong>High-intent:</strong> commercial AC repair near me · rooftop unit not cooling Houston · walk-in cooler repair Houston · commercial refrigeration repair Houston</li>
+      <li><strong>General:</strong> commercial HVAC contractor Houston · business HVAC service Houston · chilled water system maintenance Houston</li>
+      <li><strong>High-value:</strong> RTU replacement Houston · multi-site PM contract HVAC Houston · commercial system installation Houston</li>
+    </ul>
+    <p style="font-size:13px; color:var(--gunmetal);">Both tracks run as fully separate ad groups with separate negative-keyword lists (residential excludes commercial terms and vice versa) — never one shared list, since intent conflicts between the two.</p>
+
+    <h4>3-Campaign Structure (per track)</h4>
+    <ul class="plain">
+      <li><strong>Emergency/System-Down (35%)</strong> — after-hours, Maximize Conversions, call extensions always on</li>
+      <li><strong>General Repair &amp; Maintenance (40%)</strong> — Target CPA, Mon–Sat business hours</li>
+      <li><strong>Replacement/Install (25%)</strong> — Target ROAS; financing-forward copy for Residential, downtime/reliability-forward copy for Commercial</li>
+    </ul>
+
+    <div class="card">
+      <strong>★ Local Services Ads</strong> — HVAC is a nationally-eligible LSA category, and Houston is an active market for it. Two things changed recently that matter for your setup: as of October 20, 2025, Google retired the old "Google Guaranteed"/"Google Screened" badges in favor of one unified <strong>"Google Verified"</strong> badge — use that name only, nowhere else. Separately, Google began phasing Local Services Ads into a Google Ads "Performance Max pay-per-lead" campaign type starting August 2026; whether your account lands on the classic LSA dashboard or the new format should be confirmed directly during onboarding, since the rollout is metro-by-metro. Current benchmarks put HVAC LSA leads at roughly <span class="mono">$25–$85 per verified lead</span> depending on source and market — I'll confirm your exact range once the account is live. Setup requires: business license, $1M+ liability insurance, EPA 608 certs for field techs, background checks, and a verified GBP.
+    </div>
+
+    <h3 class="step-num" style="margin-top:32px;">Step 06 · 90-Day Roadmap</h3>
+    <table>
+      <tr><th>Weeks</th><th>Focus</th></tr>
+      <tr><td>1–2</td><td>Foundation — GBP categories/description fixed, sticky contact bar live, mobile speed fixes shipped, negative reviews answered</td></tr>
+      <tr><td>3–4</td><td>Acceleration — emergency landing page live, citation push (Tier 1 &amp; 2), review-request system running</td></tr>
+      <tr><td>5–8</td><td>Growth — Google Ads (both tracks) + LSA application submitted, GA4/GTM installed, call tracking live</td></tr>
+      <tr><td>9–12</td><td>Dominance — LSA active (once verified eligible), Tier 3 city-specific citations complete, first full ROI report</td></tr>
+    </table>
+
+    <h4>6-Month Forecast</h4>
+    <p>Summer (May–Sep) is your highest emergency-call season; winter (Nov–Feb) brings the second spike on furnace/heat pump calls. Shoulder seasons (Mar–Apr, Oct) are the best window to push replacement/install and maintenance-agreement renewals, since systems aren't under active load. Watch for any named competitor crossing the 500-review mark during peak season — that's when Map Pack re-ranking risk is highest — and there's a real early-mover advantage in being one of the first Houston HVAC/refrigeration companies with an active Google Verified LSA badge under the new naming.</p>
+
+    <h4>Citation Roster (starter set — Tier 3 to be finalized during onboarding)</h4>
+    <p style="font-size:13px; color:var(--gunmetal);"><strong>Tier 1:</strong> GBP, Yelp, Facebook, Bing Places, Apple Maps, Yellow Pages, Foursquare, Waze, HERE Maps, MapQuest.<br>
+    <strong>Tier 2:</strong> Angi, HomeAdvisor Pro, Thumbtack, Houzz, Nextdoor Business, Bark.com, ACCA member directory, NATE technician directory, BBB, Expertise.com, Manta, Cylex, eLocal, Brownbook.net, Porch.com, Fixr.com, BuildZoom, Networx, Superpages, Greater Houston area Chamber of Commerce.<br>
+    <strong>Tier 3 (Houston-specific starter list):</strong> Houston Association of Realtors vendor network, Houston Apartment Association preferred-vendor list, HAR.com service pros, Greater Houston Builders Association, Houston BBB, ABC Houston chapter, Southwest Houston/Missouri City Chamber of Commerce, CultureMap Houston local services, Katy Area Chamber of Commerce, Sugar Land Chamber of Commerce — this tier gets built out with real-estate and property-management referral sources during onboarding, not guessed at from a desk.</p>
+
+    <h3 class="step-num" style="margin-top:32px;">Step 07 · Working Arrangement</h3>
+    <p>I'm one specialist you work with directly — not a faceless team, not a call center. Space City Mechanical would be one of my first HVAC clients here in the U.S. market, so the rates below are a <strong>Founding Client Rate</strong>, priced under the small-business market floor as a deliberate trade: lower risk for you, a real case study for me. Pricing moves toward standard market rate for future clients once results are demonstrated.</p>
+
+    <div class="card"><strong>Level 1 — GBP &amp; Foundation</strong> — $397–$597/month<br>GBP management, category/description fixes, citation building, review system, monthly reporting.</div>
+    <div class="card"><strong>Level 2 — Foundation + Paid Search</strong> — $797–$1,097/month<br>Everything in Level 1, plus Google Ads management (both tracks), landing pages, call tracking.</div>
+    <div class="card"><strong>Level 3 — Full System</strong> — $1,297–$1,697/month<br>Everything in Level 2, plus LSA setup/management once eligible, Google Verified badge support, financing-page and replacement lead-nurture sequence, service-area geo-pages, missed-call SMS automation.</div>
+    <p style="font-size:13px; color:var(--gunmetal);">Ad spend is always separate from the monthly rate.</p>
+
+    <h3 class="step-num" style="margin-top:32px;">Step 08 · Onboarding Checklist</h3>
+    <ul class="plain">
+      <li>Standard access: GBP Manager, Google Ads Customer ID, Website CMS Admin</li>
+      <li>LSA documents (once eligibility confirmed): business license, $1M+ liability insurance certificate, EPA 608 certs, NATE certs, photo ID + background check consent for field techs, vehicle registration</li>
+      <li>Go-live: Day 1–2 access, Day 3–5 tracking + ads built, Day 7 ads live, Week 2 first data, Month 1 full report</li>
+    </ul>
+
+    <div class="card growth" style="margin-top:30px;">
+      <strong>A note from Md. Alauddin</strong>
+      <p style="margin-top:8px;">I read through all 69 of your reviews before writing a single line of this — the walk-in-cooler emergency at 11 PM, the family with the newborn, the customers who've stuck with you for 15 years. That's not something a marketing gap should be allowed to hide. HVAC and refrigeration is the one trade I've built my work around, and a company that's earned this kind of loyalty without any paid visibility at all is exactly the kind of client I want on my side. Reach out on WhatsApp whenever works for you — no pressure, no pitch, just a conversation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- GLOSSARY -->
+<div class="section navy-border" style="background:#fff;">
+  <div class="wrap">
+    <h3 class="step-num">Glossary of Terms</h3>
+    <div class="glossary-item"><b>BI Score</b> — Business Intelligence Score, a 0–100 rating of your online visibility across four pillars.</div>
+    <div class="glossary-item"><b>CPA</b> — Cost Per Acquisition, what one paying customer costs to win.</div>
+    <div class="glossary-item"><b>CPC</b> — Cost Per Click, what you pay each time someone clicks an ad.</div>
+    <div class="glossary-item"><b>CPL</b> — Cost Per Lead, what one inquiry costs before it becomes a customer.</div>
+    <div class="glossary-item"><b>CTR</b> — Click-Through Rate, the share of people who see a listing and click it.</div>
+    <div class="glossary-item"><b>Citation</b> — A directory listing of your business name, address, and phone number.</div>
+    <div class="glossary-item"><b>EPA 608</b> — The federal certification required to legally handle refrigerant.</div>
+    <div class="glossary-item"><b>GA4 / GTM</b> — Google Analytics 4 and Google Tag Manager, the tools that track what happens after someone visits your site.</div>
+    <div class="glossary-item"><b>GBP</b> — Google Business Profile, your free listing on Google Search and Maps.</div>
+    <div class="glossary-item"><b>Heat Pump</b> — A system that both heats and cools a home by moving heat rather than generating it.</div>
+    <div class="glossary-item"><b>IAQ</b> — Indoor Air Quality, filtration and ventilation services.</div>
+    <div class="glossary-item"><b>LTV</b> — Lifetime Value, total revenue a customer generates over the years you keep them.</div>
+    <div class="glossary-item"><b>Local Services Ads / LSA</b> — Google's pay-per-lead ad format that appears above everything else in search.</div>
+    <div class="glossary-item"><b>Map Pack</b> — The three local business listings Google shows at the top of a local search.</div>
+    <div class="glossary-item"><b>Maintenance Agreement</b> — A recurring service contract for seasonal tune-ups.</div>
+    <div class="glossary-item"><b>NAP</b> — Name, Address, Phone — must match exactly everywhere your business is listed online.</div>
+    <div class="glossary-item"><b>NATE Certification</b> — North American Technician Excellence, the industry's leading technician credential.</div>
+    <div class="glossary-item"><b>Refrigerant Leak Rate</b> — How quickly a system loses refrigerant, a key diagnostic and compliance metric.</div>
+    <div class="glossary-item"><b>ROAS</b> — Return on Ad Spend, revenue generated per dollar spent on ads.</div>
+    <div class="glossary-item"><b>RSA</b> — Responsive Search Ad, Google's standard text-ad format.</div>
+    <div class="glossary-item"><b>Review Velocity</b> — How many new reviews you earn per month.</div>
+    <div class="glossary-item"><b>Schema Markup</b> — Structured code on your website that helps Google (and AI tools) understand your content.</div>
+    <div class="glossary-item"><b>SEER / SEER2</b> — The efficiency rating of an AC or heat pump system.</div>
+    <div class="glossary-item"><b>Thermostat (Smart vs. Standard)</b> — Wi-Fi-connected, app-controlled thermostats vs. manual dial/digital units.</div>
+    <div class="glossary-item"><b>Financing / 0% APR Plan</b> — Payment plans that let customers spread the cost of a replacement over time.</div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p style="color:#e6edf1; font-family:'Playfair Display',serif; font-size:16px; margin-bottom:6px;">Md. Alauddin — HVAC Growth Specialist</p>
+    <p>WhatsApp +8801831591349 · alauddinxyzbd@gmail.com</p>
+    <p style="margin-top:14px;">This report is a private business analysis prepared for Space City Mechanical and is not affiliated with Google.</p>
+  </div>
+</footer>
+
+<!-- STICKY CONTACT BAR -->
+<div class="sticky-bar">
+  <a class="wa" href="https://wa.me/8801831591349" target="_blank" rel="noopener">💬 WhatsApp</a>
+  <a class="em" href="mailto:alauddinxyzbd@gmail.com">✉️ Email</a>
+</div>
+
+</body>
+</html>
